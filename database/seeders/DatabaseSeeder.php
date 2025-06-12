@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -24,6 +25,34 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'adm@gmail.com',
             'password' => '12345678',
+        ]);
+        DB::table('cursos')->insert([
+            [
+                'foto' => 'https://example.com/imagen1.jpg',
+                'nombre' => 'Curso de Laravel con Inertia',
+                'duracion' => '40 horas',
+                'horarios' => json_encode([
+                    ['dia' => 'Lunes', 'hora' => '18:00'],
+                    ['dia' => 'Miércoles', 'hora' => '18:00']
+                ]),
+                'precio' => 250.00,
+                'instructor' => 'Juan Pérez',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'foto' => 'https://example.com/imagen2.jpg',
+                'nombre' => 'Vue.js desde cero',
+                'duracion' => '30 horas',
+                'horarios' => json_encode([
+                    ['dia' => 'Martes', 'hora' => '19:00'],
+                    ['dia' => 'Jueves', 'hora' => '19:00']
+                ]),
+                'precio' => 200.00,
+                'instructor' => 'Ana Torres',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
         ]);
     }
 }
