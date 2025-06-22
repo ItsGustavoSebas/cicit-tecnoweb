@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('cursos')->insert([
             [
-                'foto' => 'https://example.com/imagen1.jpg',
+                'foto' => 'https://i.ytimg.com/vi/955AjducFw4/maxresdefault.jpg',
                 'nombre' => 'Curso de Laravel con Inertia',
                 'duracion' => '40 horas',
                 'horarios' => json_encode([
@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'foto' => 'https://example.com/imagen2.jpg',
+                'foto' => 'https://i.ytimg.com/vi/0MdVOLKMYEo/maxresdefault.jpg',
                 'nombre' => 'Vue.js desde cero',
                 'duracion' => '30 horas',
                 'horarios' => json_encode([

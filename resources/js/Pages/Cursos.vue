@@ -39,7 +39,7 @@
         <h3 class="card-tag">Curso</h3>
         <div class="card-image-wrapper">
           <img width="300" height="200" class="card-image" :src="curso.foto || 'https://via.placeholder.com/300x200'" alt="Imagen del curso" />
-          <p class="card-badge">Bs/ {{ curso.precio }}</p>
+          <p class="card-badge">Bs. {{ curso.precio }}</p>
         </div>
         <h1 class="card-title">{{ curso.nombre }}</h1>
         <div class="card-meta">
