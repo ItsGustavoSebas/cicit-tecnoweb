@@ -10,7 +10,7 @@ class Estado extends Model
     use HasFactory;
 
     protected $table = 'estado';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'codigo';
 
     protected $fillable = [
         'nombre'
