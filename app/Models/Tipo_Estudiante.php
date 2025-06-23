@@ -10,7 +10,7 @@ class Tipo_Estudiante extends Model
     use HasFactory;
 
     protected $table = 'tipo_estudiante';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'codigo';
 
     protected $fillable = [
         'nombre',

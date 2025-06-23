@@ -10,7 +10,7 @@ class Factura extends Model
     use HasFactory;
 
     protected $table = 'factura';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'codigo';
 
     protected $fillable = [
         'ID_Usuario',
