@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Curso extends Model
 {
+    use HasFactory;
+
+    protected $table = 'estado';
+    protected $primaryKey = 'codigo';
+
     protected $fillable = [
         'foto',
         'nombre',

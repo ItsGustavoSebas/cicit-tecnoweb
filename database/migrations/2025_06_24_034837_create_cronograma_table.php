@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estado', function (Blueprint $table) {
-            $table->increments('codigo')->nullable();  
-            $table->string('nombre', 100)->nullable();
-            $table->timestamps();
+        Schema::create('cronograma', function (Blueprint $table) {
+            $table->increments('codigo');  
+            $table->string('dia')->nullable();
+            $table->date('hora_inicio')->nullable();
+            $table->date('hora_fin')->nullable();
+      
         });
     }
 
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estado');
+        Schema::dropIfExists('cronograma');
     }
 };

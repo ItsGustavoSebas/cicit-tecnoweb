@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estado', function (Blueprint $table) {
-            $table->increments('codigo')->nullable();  
-            $table->string('nombre', 100)->nullable();
+        Schema::create('curso', function (Blueprint $table) {
+            $table->increments('codigo');  
+            $table->string('foto')->nullable();
+            $table->string('nombre');
+            $table->string('duracion');
+            $table->json('horarios');
+            $table->decimal('precio', 8, 2);
+            $table->string('instructor');
             $table->timestamps();
         });
+
     }
 
     /**
@@ -23,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('estado');
+        Schema::dropIfExists('cursos');
     }
 };
