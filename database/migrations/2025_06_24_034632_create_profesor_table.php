@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('foto', 2048)->nullable();
             $table->int('ci')->nullable();
             $table->timestamps();
+            //sss
         });
     }
 
