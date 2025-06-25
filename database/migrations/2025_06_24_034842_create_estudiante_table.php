@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nombre')->nullable();
             $table->string('apellido')->nullable();
             $table->int('ci')->nullable();
+            $table->timestamps();
         });
     }
 

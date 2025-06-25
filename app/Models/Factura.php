@@ -14,6 +14,7 @@ class factura extends Model
 
     protected $fillable = [
         'users_id',
+        'estudiante_curso_id',
         'monto'
     ];
 
