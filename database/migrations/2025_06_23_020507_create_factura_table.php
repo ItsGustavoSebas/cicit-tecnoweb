@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('factura', function (Blueprint $table) {
             $table->increments('codigo');  
-            $table->unsignedBigInteger('ID_Usuario')->nullable();
-            $table->unsignedBigInteger('ID_Estudiante_Curso')->nullable();
+            $table->unsignedBigInteger('users_id')->nullable();
+            $table->unsignedBigInteger('estudiante_curso_id')->nullable();
             $table->float('monto')->nullable();
-            $table->foreign('ID_Usuario')->references('id')->on('users')->nullable();
+            $table->foreign('users_id')->references('id')->on('users')->nullable();
            // $table->foreign('ID_estudiante_curso')->references('id')->on('users')->nullable();
         
             $table->timestamps();
