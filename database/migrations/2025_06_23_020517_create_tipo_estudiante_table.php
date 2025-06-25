@@ -15,7 +15,6 @@ return new class extends Migration
             $table->increments('codigo');  
             $table->text('nombre')->nullable();
             $table->boolean('status')->nullable();
-            $table->timestamps();
         });
     }
 

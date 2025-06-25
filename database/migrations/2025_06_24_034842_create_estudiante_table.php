@@ -15,8 +15,7 @@ return new class extends Migration
             $table->increments('codigo');  
             $table->string('nombre')->nullable();
             $table->string('apellido')->nullable();
-            $table->string('ci')->nullable();
-            $table->timestamps();
+            $table->int('ci')->nullable();
         });
     }
 
