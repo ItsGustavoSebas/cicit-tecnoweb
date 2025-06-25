@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('titulo')->nullable(); //ing, licen, etc
             $table->string('foto', 2048)->nullable();
             $table->int('ci')->nullable();
+            $table->timestamps();
+            //sss
         });
     }
 

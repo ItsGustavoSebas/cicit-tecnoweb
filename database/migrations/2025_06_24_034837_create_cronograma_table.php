@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('dia')->nullable();
             $table->date('hora_inicio')->nullable();
             $table->date('hora_fin')->nullable();
-      
+            $table->timestamps();
         });
     }
 
