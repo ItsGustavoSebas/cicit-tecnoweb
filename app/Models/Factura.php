@@ -13,13 +13,13 @@ class Factura extends Model
     protected $primaryKey = 'codigo';
 
     protected $fillable = [
-        'ID_Usuario',
+        'users_id',
         'monto'
     ];
 
 
     public function usuario()
     {
-        return $this->belongsTo(User::class, 'ID_Usuario');
+        return $this->belongsTo(User::class, 'users_id');
     }
 }
