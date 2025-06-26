@@ -16,6 +16,12 @@ class estudiante extends Model
         'nombre',
         'apellido',
         'ci',
+        'tipo_estudiante_id',
     ];
+
+    public function tipo_estudiante()
+    {
+        return $this->belongsTo(tipo_estudiante::class, 'tipo_estudiante_id');
+    }
 
 }

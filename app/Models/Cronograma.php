@@ -16,6 +16,12 @@ class cronograma extends Model
         'dia',
         'hora_inicio',
         'hora_fin',
+        'curso_id',
     ];
+
+    public function curso()
+    {
+        return $this->belongsTo(curso::class, 'curso_id');
+    }
 
 }

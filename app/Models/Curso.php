@@ -13,16 +13,20 @@ class curso extends Model
     protected $primaryKey = 'codigo';
 
     protected $fillable = [
-        'foto',
         'nombre',
         'duracion',
-        'horarios',
-        'precio',
-        'instructor',
+        'cupo',
+        'presencial',
+        'profesor_id',
+        'users_id',
     ];
 
-    // Si 'horarios' es un array/JSON, necesitas esto también:
-    protected $casts = [
-        'horarios' => 'array',
-    ];
+    public function profesor()
+    {
+        return $this->belongsTo(profesor::class, 'profesor_id');
+    }
+    public function usuario()
+    {
+        return $this->belongsTo(users::class, 'users_id');
+    }
 }
