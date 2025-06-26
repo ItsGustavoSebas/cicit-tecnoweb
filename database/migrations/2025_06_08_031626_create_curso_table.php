@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('curso', function (Blueprint $table) {
             $table->increments('codigo');  
-            $table->string('foto')->nullable();
-            $table->string('nombre');
-            $table->string('duracion');
-            $table->json('horarios');
-            $table->decimal('precio', 8, 2);
-            $table->string('instructor');
+            $table->string('nombre')->nullable();
+            $table->string('duracion')->nullable();
+            $table->integer('cupo')->nullable();
+            $table->boolean('presencial')->nullable();
+            $table->unsignedBigInteger('profesor_id')->nullable();
+            $table->unsignedBigInteger('users_id')->nullable();
+
+            $table->foreign('profesor_id')->references('codigo')->on('profesor')->nullable();
+            $table->foreign('users_id')->references('id')->on('users')->nullable();
             $table->timestamps();
         });
 
