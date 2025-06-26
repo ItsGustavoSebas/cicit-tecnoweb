@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('cronograma', function (Blueprint $table) {
             $table->increments('codigo');  
             $table->string('dia')->nullable();
-            $table->date('hora_inicio')->nullable();
-            $table->date('hora_fin')->nullable();
+            $table->time('hora_inicio')->nullable();
+            $table->time('hora_fin')->nullable();
+
             $table->unsignedBigInteger('curso_id')->nullable();
 
             $table->foreign('curso_id')->references('codigo')->on('curso')->onDelete('set null');
