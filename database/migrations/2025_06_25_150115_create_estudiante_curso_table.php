@@ -19,10 +19,10 @@ return new class extends Migration
             $table->unsignedBigInteger('estado_id')->nullable();
             $table->unsignedBigInteger('factura_id')->nullable();
 
-            $table->foreign('estudiante_id')->references('codigo')->on('estudiante')->nullable();
-            $table->foreign('curso_id')->references('codigo')->on('curso')->nullable();
-            $table->foreign('estado_id')->references('codigo')->on('estado')->nullable();
-            $table->foreign('factura_id')->references('codigo')->on('factura')->nullable();
+            $table->foreign('estudiante_id')->references('codigo')->on('estudiante')->onDelete('set null');
+            $table->foreign('curso_id')->references('codigo')->on('curso')->onDelete('cascade');
+            $table->foreign('estado_id')->references('codigo')->on('estado')->onDelete('set null');
+            $table->foreign('factura_id')->references('codigo')->on('factura')->onDelete('set null');
             
             $table->timestamps();
         });

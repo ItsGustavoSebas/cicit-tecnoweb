@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('ci')->nullable();
             $table->unsignedBigInteger('tipo_estudiante_id')->nullable();
 
-            $table->foreign('tipo_estudiante_id')->references('codigo')->on('tipo_estudiante')->nullable();
+            $table->foreign('tipo_estudiante_id')->references('codigo')->on('tipo_estudiante')->onDelete('set null');
             $table->timestamps();
         });
     }

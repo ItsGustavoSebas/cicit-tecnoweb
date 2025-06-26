@@ -15,7 +15,7 @@ return new class extends Migration
             $table->increments('codigo');  
             $table->unsignedBigInteger('users_id')->nullable();
             $table->float('monto')->nullable();
-            $table->foreign('users_id')->references('id')->on('users')->nullable();
+            $table->foreign('users_id')->references('codigo')->on('users')->onDelete('set null');
         
             $table->timestamps();
         });

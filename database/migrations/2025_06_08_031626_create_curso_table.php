@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('nombre')->nullable();
             $table->string('duracion')->nullable();
             $table->integer('cupo')->nullable();
+            $table->string('foto')->nullable();
             $table->boolean('presencial')->nullable();
             $table->unsignedBigInteger('profesor_id')->nullable();
             $table->unsignedBigInteger('users_id')->nullable();
 
-            $table->foreign('profesor_id')->references('codigo')->on('profesor')->nullable();
-            $table->foreign('users_id')->references('id')->on('users')->nullable();
+            $table->foreign('profesor_id')->references('codigo')->on('profesor')->onDelete('set null');
+            $table->foreign('users_id')->references('codigo')->on('users')->onDelete('set null');
             $table->timestamps();
         });
 

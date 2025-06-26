@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('hora_fin')->nullable();
             $table->unsignedBigInteger('curso_id')->nullable();
 
-            $table->foreign('curso_id')->references('codigo')->on('curso')->nullable();
+            $table->foreign('curso_id')->references('codigo')->on('curso')->onDelete('set null');
             $table->timestamps();
         });
     }
