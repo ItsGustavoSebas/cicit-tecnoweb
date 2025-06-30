@@ -2,38 +2,8 @@
   <div class="bg-white p-8 min-h-screen">
     <h2 class="text-3xl font-bold text-blue-800 mb-6">Cursos CICIT</h2>
 
-    <!-- Formulario de creación -->
-    <form autocomplete="on" @submit.prevent="crearCurso" class="grid md:grid-cols-2 gap-4 mb-10">
-      <input name="foto" v-model="form.foto" placeholder="URL de la imagen" class="border p-2 rounded" />
-      <input name="nombre" v-model="form.nombre" placeholder="Nombre del curso" class="border p-2 rounded" />
-      <input name="duracion" v-model="form.duracion" placeholder="Duración (ej. 40 horas)" class="border p-2 rounded" />
-      <input name="precio" v-model="form.precio" type="number" placeholder="Precio" class="border p-2 rounded" />
-      <input name="instructor" v-model="form.instructor" placeholder="Instructor" class="border p-2 rounded" />
 
 
-      <div>
-        <label class="block font-semibold">Horarios (puedes agregar varios):</label>
-        <div v-for="(h, index) in form.horarios" :key="index" class="flex space-x-2 mt-2">
-          <select v-model="h.dia" class="border p-1 rounded w-1/2">
-            <option disabled value="">Seleccione un día</option>
-            <option>Lunes</option>
-            <option>Martes</option>
-            <option>Miércoles</option>
-            <option>Jueves</option>
-            <option>Viernes</option>
-            <option>Sábado</option>
-            <option>Domingo</option>
-          </select>
-          <input v-model="h.hora" placeholder="Hora" class="border p-1 rounded w-1/2" />
-          <button type="button" @click="form.horarios.splice(index, 1)" class="text-red-500 font-bold">X</button>
-        </div>
-        <button type="button" @click="form.horarios.push({ dia: '', hora: '' })" class="mt-2 text-blue-600 underline">+ Añadir horario</button>
-      </div>
-
-      <button type="submit" class="card-button">Guardar curso</button>
-    </form>
-
-    <!-- Lista de cursos -->
     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div v-for="curso in cursos" :key="curso.id" class="card">
         <h3 class="card-tag">Curso</h3>
