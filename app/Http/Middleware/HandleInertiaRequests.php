@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -29,11 +30,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        return [
-            ...parent::share($request),
+        $user = Auth::user();
+
+        if ($user) {
+            // Carga permisos y funcionalidad en una sola consulta
+            $user->loadMissing('role.permisos.funcionalidad');
+        }
+
+        return array_merge(parent::share($request), [
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+                'permisos' => $user?->role?->permisos ?? [], // 👈 aquí los mandas directo
             ],
-        ];
+            'visitas' => \App\Models\Visita::whereRaw(
+                'ruta = ? AND users_id = ?',
+                [$request->getPathInfo(), optional($user)->codigo]
+            )->value('veces'),
+        ]);
     }
+
 }

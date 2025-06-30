@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class users extends Authenticatable
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -44,5 +43,16 @@ class users extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $table = 'users';
+    protected $primaryKey = 'codigo';
+    public $timestamps = false;
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'rol_id', 'codigo');
+    }
+    public function visitas() {
+        return $this->hasMany(Visita::class, "users_id");
     }
 }

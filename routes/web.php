@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/inicio', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -34,5 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/funcionalidades/search', function (Illuminate\Http\Request $request) {
+    $search = $request->query('q');
+
+    return \App\Models\Funcionalidad::where('nombre', 'like', "%$search%")->get();
+})->name('funcionalidades.search');
+
 
 require __DIR__.'/auth.php';
