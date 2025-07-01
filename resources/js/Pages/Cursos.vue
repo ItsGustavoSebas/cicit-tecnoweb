@@ -1,64 +1,65 @@
+<style>
+  .descripcion{
+    font-size: 16px;
+    margin-bottom: 1px;
+  }
+</style>
 <template>
-  <div class="bg-white p-8 min-h-screen">
-    <h2 class="text-3xl font-bold text-blue-800 mb-6">Cursos CICIT</h2>
+  <GuestLayout>
+    <div class="modal-content p-8 min-h-screen">
+      <h2 class="text-3xl font-bold text-blue-800 mb-6">Cursos CICIT</h2>
 
 
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div v-for="curso in cursos" :key="curso.id" class="card">
-        <h3 class="card-tag">Curso</h3>
-        <div class="card-image-wrapper">
-          <img width="300" height="200" class="card-image" :src="curso.foto || 'https://via.placeholder.com/300x200'" alt="Imagen del curso" />
-          <p class="card-badge">Bs. {{ curso.precio }}</p>
-        </div>
-        <h1 class="card-title">{{ curso.nombre }}</h1>
-        <div class="card-meta">
-          <div class="meta-item">📅 {{ curso.duracion }}</div>
-          <div class="meta-item">👨‍🏫 {{ curso.instructor }}</div>
-          <div class="meta-item" v-for="(h, i) in curso.horarios" :key="i">⏰ {{ h.dia }} - {{ h.hora }}</div>
-          <button class="card-button" @click="eliminarCurso(curso.id)">Eliminar</button>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div v-for="curso in cursos" :key="curso.id" class="card">
+          <h3 class="card-tag">Curso</h3>
+          <div class="card-image-wrapper">
+            <img width="300" height="200" class="card-image" :src="curso.foto || 'https://web-assets.esetstatic.com/wls/2018/04/cursos-online-gratuitos-seguridad-inform%C3%A1tica.jpg'" alt="Imagen del curso" />
+            <p class="card-badge"> Bs. {{ curso.precios?.[0]?.precio ?? '—' }}</p>
+          </div>
+          <h1 class="card-title">{{ curso.nombre }}</h1>
+          <div class="card-meta">
+            <div class="descripcion">📅Duracion: {{ curso.duracion }}</div>
+            <div class="descripcion">👨‍🏫Docente: {{ curso.profesor?.nombre ?? '—' }} {{ curso.profesor?.apellido ?? '—' }}</div>
+            <div class="descripcion">
+              {{ curso.presencial ? '🏫Modalidad Presencial' : '💻Modalidad: Virtual' }}
+            </div>
+
+            <div v-if="curso.cronogramas?.length">
+              <div class="descripcion">🗓️Cronograma:</div>
+              <ul class="list-disc pl-5 text-sm">
+
+                <li v-for="(c, i) in curso.cronogramas" :key="i">
+                  {{ c.dia }} — {{ c.hora_inicio }} a {{ c.hora_fin }}
+                </li>
+              </ul>
+            </div>
+            <a :href="`/cursos/${curso.codigo}/inscripcion`" class="card-button mt-3 mx-auto block text-center" style="color:white">
+
+              Inscribirse
+            </a>
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </GuestLayout> 
 </template>
 
 <script setup>
   import { ref, onMounted } from 'vue'
   import axios from 'axios'
+  import GuestLayout from '@/Layouts/GuestLayout.vue';
+
 
   const cursos = ref([])
-  const form = ref({
-    foto: '',
-    nombre: '',
-    duracion: '',
-    horarios: [{ dia: '', hora: '' }],
-    precio: '',
-    instructor: ''
-  })
 
   const cargarCursos = async () => {
     const res = await axios.get('/api/get-cursos')
     cursos.value = res.data
   }
 
-  const crearCurso = async () => {
-    await axios.post('/api/create-curso', form.value)
-    form.value = {
-      foto: '',
-      nombre: '',
-      duracion: '',
-      horarios: [{ dia: '', hora: '' }],
-      precio: '',
-      instructor: ''
-    }
-    await cargarCursos()
-  }
-
-  const eliminarCurso = async (id) => {
-    await axios.delete(`/api/delete-curso/${id}`)
-    await cargarCursos()
-  }
 
   onMounted(() => {
     cargarCursos()

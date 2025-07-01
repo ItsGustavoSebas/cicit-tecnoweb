@@ -6,24 +6,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-class Cronograma extends Model
+class Precio extends Model
 {
     use HasFactory;
 
-    protected $table = 'cronograma';
+    protected $table = 'precio';
     protected $primaryKey = 'codigo';
 
     protected $fillable = [
-        'dia',
-        'hora_inicio',
-        'hora_fin',
-        'curso_id',
+        'precio',
+        'tipo_estudiante_id',
+        'curso_id'
     ];
+
+    public function tipo_estudiante()
+    {
+        return $this->belongsTo(Tipo_Estudiante::class, 'tipo_estudiante_id');
+    }
 
     public function curso()
     {
-        return $this->belongsTo(curso::class, 'curso_id');
+        return $this->belongsTo(Curso::class, 'curso_id');
     }
+
 
     public static function bulkStore(array $rows, int $cursoId): void
     {
@@ -40,6 +45,5 @@ class Cronograma extends Model
             static::bulkStore($rows, $cursoId);
         });
     }
-
 
 }

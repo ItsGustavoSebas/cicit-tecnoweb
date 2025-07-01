@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class factura extends Model
+class Factura extends Model
 {
     use HasFactory;
 
@@ -21,6 +21,6 @@ class factura extends Model
 
     public function usuario()
     {
-        return $this->belongsTo(users::class, 'users_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
 }

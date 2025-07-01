@@ -14,6 +14,10 @@ return new class extends Migration
         Schema::create('precio', function (Blueprint $table) {
             $table->id();
             $table->double('precio');
+            $table->unsignedBigInteger('tipo_estudiante_id')->nullable();
+            $table->unsignedBigInteger('curso_id')->nullable();
+            $table->foreign('tipo_estudiante_id')->references('codigo')->on('tipo_estudiante')->onDelete('set null');
+            $table->foreign('curso_id')->references('codigo')->on('curso')->onDelete('set null');
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class estudiante extends Model
+class Estudiante extends Model
 {
     use HasFactory;
 
@@ -21,7 +21,7 @@ class estudiante extends Model
 
     public function tipo_estudiante()
     {
-        return $this->belongsTo(tipo_estudiante::class, 'tipo_estudiante_id');
+        return $this->belongsTo(Tipo_Estudiante::class, 'tipo_estudiante_id');
     }
 
 }

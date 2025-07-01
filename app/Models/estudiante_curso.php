@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class estudiante_curso extends Model
+class Estudiante_Curso extends Model
 {
     use HasFactory;
 
@@ -22,21 +22,21 @@ class estudiante_curso extends Model
 
     public function estudiante()
     {
-        return $this->belongsTo(estudiante::class, 'estudiante_id');
+        return $this->belongsTo(Estudiante::class, 'estudiante_id');
     }
 
     public function curso()
     {
-        return $this->belongsTo(curso::class, 'curso_id');
+        return $this->belongsTo(Curso::class, 'curso_id');
     }
 
     public function estado()
     {
-        return $this->belongsTo(estado::class, 'estado_id');
+        return $this->belongsTo(Estado::class, 'estado_id');
     }
 
     public function factura()
     {
-        return $this->belongsTo(factura::class, 'factura_id');
+        return $this->belongsTo(Factura::class, 'factura_id');
     }
 }
