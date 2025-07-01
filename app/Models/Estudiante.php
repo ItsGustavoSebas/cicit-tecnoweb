@@ -16,8 +16,8 @@ class Estudiante extends Model
       'nombre','apellido','ci','tipo_estudiante_id'
     ];
 
-    public function tipo()
+    public function tipoEstudiante()
     {
-        return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id', 'codigo');
+        return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id');
     }
 }
