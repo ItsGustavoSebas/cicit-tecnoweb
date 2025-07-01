@@ -19,7 +19,7 @@ class EstudianteController extends Controller
                 'nombre' => $e->nombre,
                 'apellido' => $e->apellido,
                 'ci' => $e->ci,
-                'tipo_nombre' => $e->tipo?->nombre,
+                'tipo_nombre' => $e->tipoEstudiante?->nombre,
             ]);
 
         return Inertia::render('Estudiantes/Index', compact('estudiantes'));
@@ -89,7 +89,7 @@ class EstudianteController extends Controller
     public function buscarPorCI($ci)
     {
         try {
-            $estudiante = Estudiante::with('tipo_estudiante')->where('ci', $ci)->first();
+            $estudiante = Estudiante::with('tipoEstudiante')->where('ci', $ci)->first();
     
             if (!$estudiante) {
                 return response()->json(['error' => 'No encontrado'], 404);
@@ -101,7 +101,7 @@ class EstudianteController extends Controller
                 'apellido' => $estudiante->apellido,
                 'ci' => $estudiante->ci,
                 'tipo_estudiante_id' => $estudiante->tipo_estudiante_id,
-                'tipo_estudiante_nombre' => $estudiante->tipo_estudiante->nombre ?? null,
+                'tipo_estudiante_nombre' => $estudiante->tipoEstudiante->nombre ?? null,
             ]);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

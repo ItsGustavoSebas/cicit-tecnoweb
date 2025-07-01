@@ -53,10 +53,10 @@
   
             <!-- Duración -------------------------------------------------- -->
             <div class="mb-3">
-              <label class="form-label fw-bold">Duración (horas)</label>
+              <label class="form-label fw-bold">Duración</label>
               <input
                 v-model="form.duracion"
-                type="number"
+                type="string"
                 class="form-control"
                 :class="{ 'is-invalid': form.errors.duracion }"
               />

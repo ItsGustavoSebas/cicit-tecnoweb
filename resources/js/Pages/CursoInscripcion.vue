@@ -1,42 +1,42 @@
 <template>
     <GuestLayout>
-        <div class="p-8" style="width: 40%;place-self: center;">
+        <div style="width: 100%;place-self: center;">
             <div style="place-items: center;">
-                <h1 class="text-2xl font-bold mb-4">Inscribirse al Curso</h1>
-                <p class="mb-1">📘 <strong>Curso:</strong> {{ curso.nombre }}</p>
-                <p class="mb-1">
-                    👨‍🏫 <strong>Docente:</strong> {{ curso.profesor?.nombre ?? "—" }}
-                </p>
-                <p class="mb-1">
-                    📅 <strong>Duración:</strong> {{ curso.duracion }}
-                </p>
-                <p class="mb-3">
-                    💰 <strong>Precio:</strong> Bs.
-                    {{ curso.precios?.[0]?.precio ?? "—" }}
-                </p>
+                        <h1 class="text-2xl font-bold mb-4">Inscribirse al Curso</h1>
+                        <p class="mb-1">📘 <strong>Curso:</strong> {{ curso.nombre }}</p>
+                        <p class="mb-1">
+                            👨‍🏫 <strong>Docente:</strong> {{ curso.profesor?.nombre ?? "—" }}
+                        </p>
+                        <p class="mb-1">
+                            📅 <strong>Duración:</strong> {{ curso.duracion }}
+                        </p>
+                        <p class="mb-3">
+                            💰 <strong>Precio:</strong> Bs.
+                            {{ curso.precios?.[0]?.precio ?? "—" }}
+                        </p>
 
-                <div v-if="curso.cronogramas?.length" class="mb-3">
-                    <p class="font-semibold mb-1">🗓️ Cronograma:</p>
-                    <ul class="list-disc pl-5 text-sm">
-                        <li v-for="(c, i) in curso.cronogramas" :key="i">
-                            {{ c.dia }} — {{ c.hora_inicio }} a {{ c.hora_fin }}
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
+                        <div v-if="curso.cronogramas?.length" class="mb-3">
+                            <p class="font-semibold mb-1">🗓️ Cronograma:</p>
+                            <ul class="list-disc pl-5 text-sm">
+                                <li v-for="(c, i) in curso.cronogramas" :key="i">
+                                    {{ c.dia }} — {{ c.hora_inicio }} a {{ c.hora_fin }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
             <div class="col-12">
                 <!-- Tarjeta Bootstrap -->
                 <div class="card">
+
                     <div class="card-header">
-                        <h5 class="mb-0">Formulario de inscripción</h5>
+                        <h5 class="mb-0">Rellenar Información:</h5>
                     </div>
 
                     <div class="card-body">
                         <form
                             @submit.prevent="cargarInformacion"
-                            class="row row-cols-1"
+                            class=""
                         >
                             <!-- Campo CI --------------------------------------------------- -->
                             <div class="mb-3">

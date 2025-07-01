@@ -19,9 +19,9 @@ class Precio extends Model
         'curso_id'
     ];
 
-    public function tipo_estudiante()
+    public function tipoEstudiante()
     {
-        return $this->belongsTo(Tipo_Estudiante::class, 'tipo_estudiante_id');
+        return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id');
     }
 
     public function curso()

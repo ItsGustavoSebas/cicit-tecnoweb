@@ -18,6 +18,6 @@ class Estudiante extends Model
 
     public function tipoEstudiante()
     {
-        return $this->belongsTo(Tipo_Estudiante::class, 'tipo_estudiante_id');
+        return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id');
     }
 }

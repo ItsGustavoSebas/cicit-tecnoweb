@@ -97,6 +97,14 @@ const btnOscuro = document.getElementById("btnOscuro");
                 document.getElementById("app-body").classList.remove("bg-dark");
                 document.getElementById("app-body").classList.remove("text-light");
             }
+            const wrapper = document.getElementById("app-wrapper");
+            if (wrapper) {
+                if (isDarkMode) {
+                    wrapper.classList.add("bg-dark");
+                } else {
+                    wrapper.classList.remove("bg-dark");
+                }
+            }
             
             setBGColorTable(isDarkMode);
             setBGColorShadow(isDarkMode);

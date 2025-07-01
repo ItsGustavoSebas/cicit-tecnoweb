@@ -18,7 +18,7 @@
             <img width="300" height="200" class="card-image" :src="curso.foto || 'https://web-assets.esetstatic.com/wls/2018/04/cursos-online-gratuitos-seguridad-inform%C3%A1tica.jpg'" alt="Imagen del curso" />
             <p class="card-badge"> Bs. {{ curso.precios?.[0]?.precio ?? '—' }}</p>
           </div>
-          <h1 class="card-title">{{ curso.nombre }}</h1>
+          <h1 style="font-size: 30px;margin-top: 25px;">{{ curso.nombre }}</h1>
           <div class="card-meta">
             <div class="descripcion">📅Duracion: {{ curso.duracion }}</div>
             <div class="descripcion">👨‍🏫Docente: {{ curso.profesor?.nombre ?? '—' }} {{ curso.profesor?.apellido ?? '—' }}</div>

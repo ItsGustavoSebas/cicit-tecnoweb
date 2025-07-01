@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use App\Models\Profesor;        // ← si usas el modelo de profesores
-use App\Models\Tipo_Estudiante;
+use App\Models\TipoEstudiante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,9 +19,9 @@ class CursoController extends Controller
     public function get()
     {
         return Curso::with([
-                'profesor:codigo,nombre',
+                'profesor:codigo,nombre,apellido',
                 'cronogramas:codigo,curso_id,dia,hora_inicio,hora_fin',
-                'precios' => fn ($q) => $q->select('codigo', 'curso_id', 'precio')->orderBy('codigo')->take(1)
+                'precios' => fn ($q) => $q->select('codigo', 'curso_id', 'precio')->orderByDesc('precio')->take(1)
             ])
             ->latest()
             ->get(['codigo','nombre','duracion','cupo','presencial','profesor_id']);
@@ -29,7 +29,7 @@ class CursoController extends Controller
     
     public function index()
     {
-        $cursos = Curso::with(['profesor', 'usuario', 'cronogramas', 'precios.tipo_estudiante'])   
+        $cursos = Curso::with(['profesor', 'usuario', 'cronogramas', 'precios.tipoEstudiante'])   
             ->orderByDesc('codigo')
             ->paginate(15)
             ->through(fn ($curso) => [                  
@@ -45,7 +45,7 @@ class CursoController extends Controller
                 ->implode(', '),
 
                 'preciosTexto' => $curso->precios
-                    ->map(fn ($p) => optional($p->tipo_estudiante)->nombre . ': ' . $p->precio)
+                    ->map(fn ($p) => optional($p->tipoEstudiante)->nombre . ': ' . $p->precio)
                     ->implode(', '),
             ]);
 
@@ -58,7 +58,7 @@ class CursoController extends Controller
 
         return Inertia::render('Cursos/crear', [
             'profesores'       => Profesor::select('codigo','nombre')->get(),
-            'tiposEstudiante'  => Tipo_Estudiante::select('codigo','nombre')->get(),
+            'tiposEstudiante'  => TipoEstudiante::select('codigo','nombre')->get(),
         ]);
     }
 
@@ -100,7 +100,7 @@ class CursoController extends Controller
             'preciosPrevios'   => $curso->precios()
                                         ->select('precio','tipo_estudiante_id')
                                         ->get(),
-            'tiposEstudiante'  => Tipo_Estudiante::select('codigo','nombre')->where('status',1)->get(),
+            'tiposEstudiante'  => TipoEstudiante::select('codigo','nombre')->where('status',1)->get(),
         ]);
     }
 

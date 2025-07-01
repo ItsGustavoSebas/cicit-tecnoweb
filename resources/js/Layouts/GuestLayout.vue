@@ -7,20 +7,13 @@ import { Link } from '@inertiajs/vue3';
 <template>
     <div id="app-2" class="app-2 default">
         <HeaderGuest/>
-    <div
-        class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0"
+    <div  id="app-wrapper"
+    class="flex min-h-screen flex-col items-center pt-6 sm:justify-center sm:pt-0 bg-light"
     >
-        <div>
-            <Link href="/">
-                <ApplicationLogo class="h-20 w-20 fill-current text-gray-500" />
-            </Link>
-        </div>
 
-        <div
-            class="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg"
-        >
-            <slot />
-        </div>
+    <div class="mt-6 overflow-hidden shadow-md sm:rounded-lg" id="app-body">
+    <slot />
+  </div>
     </div>
     </div>
 </template>
