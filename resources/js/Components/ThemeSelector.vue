@@ -31,7 +31,7 @@ const btnDefaultTheme = document.getElementById("btnDefaultTheme");
         const btnChildTheme = document.getElementById("btnChildTheme");
         const btnOldTheme = document.getElementById("btnOldTheme");
 
-        const app = document.getElementById("app");
+        const app = document.getElementById("app-2");
 
         let currentTheme = localStorage.getItem("theme");
 

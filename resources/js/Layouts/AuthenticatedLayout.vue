@@ -8,8 +8,9 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-    <div class="app default">
-    <Sidenav/>
+    
+  <Sidenav/>
+  <div id="app-2" class="app default">
     <Header/>
 
     <main class="app__body" id="app-body">

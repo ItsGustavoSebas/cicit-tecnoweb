@@ -27,6 +27,6 @@ class curso extends Model
     }
     public function usuario()
     {
-        return $this->belongsTo(users::class, 'users_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
 }
