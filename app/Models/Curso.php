@@ -78,5 +78,6 @@ class Curso extends Model
             Cronograma::replaceAll($this->codigo, $data['cronogramas']);
             Precio::replaceAll($this->codigo,     $data['precios']);
         });
+  
     }
 }

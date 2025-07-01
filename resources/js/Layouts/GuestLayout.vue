@@ -1,9 +1,12 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
+import HeaderGuest from '@/Components/HeaderGuest.vue';
 import { Link } from '@inertiajs/vue3';
 </script>
 
 <template>
+    <div id="app-2" class="app-2 default">
+        <HeaderGuest/>
     <div
         class="flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0"
     >
@@ -18,5 +21,6 @@ import { Link } from '@inertiajs/vue3';
         >
             <slot />
         </div>
+    </div>
     </div>
 </template>

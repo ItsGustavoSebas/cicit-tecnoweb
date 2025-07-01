@@ -1,7 +1,14 @@
 @import "variables";
 
+.app-2 {
+	width: 100%;
+}
+
 .app {
 	width: calc(100vw - $sidenav-width);
+}
+
+.app {
 	float: right;
 	display: flex;
 	flex-direction: column;
