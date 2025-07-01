@@ -2,26 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class estudiante extends Model
+class Estudiante extends Model
 {
     use HasFactory;
 
     protected $table = 'estudiante';
     protected $primaryKey = 'codigo';
-
+    public $timestamps = true;
     protected $fillable = [
-        'nombre',
-        'apellido',
-        'ci',
-        'tipo_estudiante_id',
+      'nombre','apellido','ci','tipo_estudiante_id'
     ];
 
-    public function tipo_estudiante()
+    public function tipo()
     {
-        return $this->belongsTo(tipo_estudiante::class, 'tipo_estudiante_id');
+        return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id', 'codigo');
     }
-
 }
