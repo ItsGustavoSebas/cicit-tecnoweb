@@ -27,6 +27,9 @@
 import { onMounted } from 'vue'
 
 onMounted(() => {
+    const saved = localStorage.getItem('theme') || 'default'
+  document.body.classList.remove('nino','adulto')
+  if (saved !== 'default') document.body.classList.add(saved)
 const btnDefaultTheme = document.getElementById("btnDefaultTheme");
         const btnChildTheme = document.getElementById("btnChildTheme");
         const btnOldTheme = document.getElementById("btnOldTheme");
