@@ -1,7 +1,30 @@
+<style>
+/* Encender el tema “niño” */
+
+/* Tema “adulto”: fondo gris claro */
+.app-2.adulto .info-header {
+  background-color: #5E5E5EFF  ;
+  color: white;
+  padding: 40px;
+  border: solid;
+  font-weight: bold;
+}
+
+/* Tema “niño”: fondo azul muy suave */
+.app-2.nino .info-header {
+  background-color: #1A3C53FF  ;
+  color: white;
+  padding: 40px;
+  border: solid;
+}
+
+
+</style>
+
 <template>
     <GuestLayout>
-        <div style="width: 100%;place-self: center;">
-            <div style="place-items: center;">
+        <div class="info-header" style="width: 40%;place-self: center;">
+            <div class="grid place-items-center p-4 rounded mb-4">
                         <h1 class="text-2xl font-bold mb-4">Inscribirse al Curso</h1>
                         <p class="mb-1">📘 <strong>Curso:</strong> {{ curso.nombre }}</p>
                         <p class="mb-1">
@@ -27,7 +50,7 @@
 
             <div class="col-12">
                 <!-- Tarjeta Bootstrap -->
-                <div class="card">
+                <div class="">
 
                     <div class="card-header">
                         <h5 class="mb-0">Rellenar Información:</h5>

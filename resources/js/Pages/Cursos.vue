@@ -1,8 +1,23 @@
 <style>
-  .descripcion{
-    font-size: 16px;
-    margin-bottom: 1px;
-  }
+.app-2.nino .descripcion {
+  /* por ejemplo: texto azul claro cuando esté en modo niño */
+  color: #0D47A1;
+}
+
+.app-2.adulto .descripcion {
+  /* gris oscuro cuando esté en modo adulto */
+  color: #78868DFF;
+  font-weight: bold;
+}
+
+/* o cualquier otra regla: */
+.app-2.nino .card-button {
+  background-color: #0D47A1;
+}
+.app-2.adulto .card-button {
+  background-color: #42585EFF;
+  font-weight: bold;
+}
 </style>
 <template>
   <GuestLayout>
