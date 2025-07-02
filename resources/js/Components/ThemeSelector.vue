@@ -6,17 +6,17 @@
     <ul class="dropdown-menu" aria-labelledby="dropdownThemes">
         <li>
             <a class="dropdown-item" id="btnDefaultTheme" style="cursor: pointer">
-                <img width="30" height="30" src="{{asset('assets/icons/icons8red.png')}}" alt="roller-brush--v1"/>Tema por defecto
+                <img width="30" height="30" src="assets/icons/icons8red.png" alt="roller-brush--v1"/>Tema por defecto
             </a>
         </li>
         <li>
             <a class="dropdown-item" id="btnChildTheme" style="cursor: pointer">
-                <img width="30" height="30" src="{{asset('assets/icons/icons8blue.png')}}" alt="roller-brush--v1"/>Tema niño
+                <img width="30" height="30" src="assets/icons/icons8blue.png" alt="roller-brush--v1"/>Tema niño
             </a>
         </li>
         <li>
             <a class="dropdown-item" id="btnOldTheme" style="cursor: pointer">
-                <img width="30" height="30" src="{{asset('assets/icons/icons8gray.png')}}" alt="roller-brush--v1"/>Tema adulto
+                <img width="30" height="30" src="assets/icons/icons8gray.png" alt="roller-brush--v1"/>Tema adulto
             </a>
         </li>
     </ul>
