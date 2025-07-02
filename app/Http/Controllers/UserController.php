@@ -93,4 +93,37 @@ class UserController extends Controller
         return redirect()->route('users.index')
                          ->with('success','Usuario eliminado');
     }
+
+    public function export()
+    {
+        $filename = 'usuarios_' . now()->format('Ymd_His') . '.csv';
+
+        $rows = \App\Models\User::with('role')
+            ->get(['codigo','nombre','ci','email','rol_id'])
+            ->map(fn($u) => [
+                $u->codigo,
+                $u->nombre,
+                $u->ci,
+                $u->email,
+                optional($u->rol)->nombre,
+            ]);
+
+        $handle = fopen('php://temp', 'r+');
+        fputcsv($handle, ['ID', 'Nombre', 'CI', 'Email', 'Rol']);
+        foreach ($rows as $row) {
+            fputcsv($handle, $row);
+        }
+        rewind($handle);
+        $csv = stream_get_contents($handle);
+        fclose($handle);
+
+        $bom = chr(0xEF).chr(0xBB).chr(0xBF);
+        $csv = $bom . $csv;
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
+    }
+
 }

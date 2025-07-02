@@ -135,6 +135,8 @@ Route::middleware(['auth', 'verified'])
     });
 
     Route::middleware(['auth','verified'])->group(function(){
+        Route::get('users/export', [UserController::class, 'export'])
+            ->name('users.export');        
         Route::resource('users', UserController::class);
         Route::get('facturas/{factura}/pdf', [FacturaController::class, 'pdf'])
             ->name('facturas.pdf');

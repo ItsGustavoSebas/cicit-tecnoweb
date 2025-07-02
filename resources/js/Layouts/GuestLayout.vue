@@ -6,7 +6,7 @@ import { Link } from '@inertiajs/vue3';
 
 <template>
   
-    <div id="app-2" class="app-2 default">
+    <div id="app-2" class="app app-2 default">
         <HeaderGuest/>
 
     <main class="app__body" id="app-body">

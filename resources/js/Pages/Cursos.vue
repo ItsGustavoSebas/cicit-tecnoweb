@@ -51,7 +51,7 @@
                 </li>
               </ul>
             </div>
-            <a :href="`/cursos/${curso.codigo}/inscripcion`" class="card-button mt-3 mx-auto block text-center" style="color:white">
+            <a :href="`/cursos/${curso.codigo}/inscripcion`" class="card-button mt-3 mx-auto block text-center btn btn-primary" style="color:white">
 
               Inscribirse
             </a>

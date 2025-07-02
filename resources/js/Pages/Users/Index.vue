@@ -4,6 +4,13 @@
     <Link :href="route('users.create')" class="btn btn-primary mb-3">
       Nuevo usuario
     </Link>
+    <a
+        :href="route('users.export')"
+        class="btn btn-success mb-3 ml-3"
+        target="_blank"
+      >
+        Exportar CSV
+      </a>
 
     <div class="card">
       <div class="card-body" style="overflow-x:auto">

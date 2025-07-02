@@ -1,11 +1,12 @@
 @import "variables";
 
-.app-2 {
-	width: 100%;
+.app:not(.app-2) {
+  width: calc(100vw - $sidenav-width);
 }
 
-.app {
-	width: calc(100vw - $sidenav-width);
+/* Cuando el elemento tiene ambas clases: .app y .app-2  */
+.app.app-2 {
+  width: 100%;
 }
 
 .app {
