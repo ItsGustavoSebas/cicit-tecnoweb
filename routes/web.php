@@ -115,6 +115,18 @@ Route::middleware('auth')->group(function () {
     Route::put('/cursos/actualizar/{curso}',       [CursoController::class, 'update'])->name('cursos.update');
     Route::delete('/cursos/eliminar/{curso}',    [CursoController::class, 'delete'])->name('cursos.delete');
     Route::get('/cursos/{curso}/estudiantes', [Estudiante_CursoController::class, 'verEstudiantes'])->name('cursos.verEstudiantes');
+    Route::get('cursos/export', [CursoController::class,'export'])
+     ->name('cursos.export');
+    Route::get('cursos/{curso}/inscripciones/export',
+           [CursoController::class,'exportInscripciones'])
+     ->name('cursos.inscripciones.export');
+    Route::get('inscripciones/{inscripcion}/certificado',
+           [Estudiante_CursoController::class, 'certificado'])
+     ->name('inscripciones.certificado');
+
+Route::get('inscripciones/{inscripcion}/formulario',
+           [Estudiante_CursoController::class, 'formulario'])
+     ->name('inscripciones.formulario');
 });
 
 Route::get('/funcionalidades/search', function (Illuminate\Http\Request $request) {
@@ -126,6 +138,17 @@ Route::get('/funcionalidades/search', function (Illuminate\Http\Request $request
 Route::get('/cursos/{codigo}/inscripcion', [Estudiante_CursoController::class, 'crear'])->name('estudiante_curso.crear');
 Route::get('/api/estudiante/{ci}', [EstudianteController::class, 'buscarPorCI']);
 Route::post('/api/inscripcion', [Estudiante_CursoController::class, 'store']);
+Route::get('cursos/inscripciones/buscar',      // AJAX, devuelve JSON
+           [Estudiante_CursoController::class,'buscarPorCI'])
+     ->name('public.inscripciones.buscar');
+
+Route::get('cursos/inscripciones/{inscripcion}/formulario',
+           [Estudiante_CursoController::class,'formulario'])
+     ->name('public.inscripciones.formulario');
+
+Route::get('cursos/inscripciones/{inscripcion}/certificado',
+           [Estudiante_CursoController::class,'certificado'])
+     ->name('public.inscripciones.certificado');
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
@@ -138,9 +161,15 @@ Route::middleware(['auth', 'verified'])
         Route::get('users/export', [UserController::class, 'export'])
             ->name('users.export');        
         Route::resource('users', UserController::class);
+        Route::get('facturas/export', [FacturaController::class, 'export'])
+            ->name('facturas.export');
         Route::get('facturas/{factura}/pdf', [FacturaController::class, 'pdf'])
             ->name('facturas.pdf');
+        Route::get('estudiantes/export', [EstudianteController::class, 'export'])
+            ->name('estudiantes.export');
         Route::resource('estudiantes', EstudianteController::class);
+        Route::get('profesores/export', [ProfesorController::class, 'export'])
+            ->name('profesores.export');
         Route::resource('profesores', ProfesorController::class)
             ->parameters(['profesores' => 'profesor']);
         Route::resource('facturas', FacturaController::class)

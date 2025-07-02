@@ -31,7 +31,7 @@
         </tbody>
       </table>
       <p><strong>Total:</strong> {{ total }}</p>
-      <button :disabled="!selectedItems.length" @click="store" class="btn btn-success">
+      <button :disabled="!selectedItems.length" @click="store" class="btn btn-primary">
         Generar factura
       </button>
     </div>

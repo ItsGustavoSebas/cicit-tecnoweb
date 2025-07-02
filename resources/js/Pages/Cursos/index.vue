@@ -9,9 +9,12 @@
   
             <!-- botón +Nuevo -->
             <Link :href="route('cursos.crear')"
-                  class="btn btn-success btn-sm d-flex align-items-center">
+                  class="btn btn-primary btn-sm d-flex align-items-center">
               <i class="bi bi-plus-lg me-1"></i> Nuevo
             </Link>
+            <a :href="route('cursos.export')" class="btn btn-primary btn-sm" target="_blank">
+              <i class="bi bi-download me-1"></i> Exportar CSV
+            </a>
           </div>
   
           <hr />

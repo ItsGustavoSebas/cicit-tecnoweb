@@ -1,10 +1,13 @@
 <template>
 
     <AuthenticatedLayout>
-    <template>
-      <h2>Roles</h2>
-      <Link :href="route('roles.create')" class="btn btn-primary">Nuevo rol</Link>
-    </template>
+    <div class="d-lg-flex d-block justify-content-between align-items-center">
+      <span class="fs-4">Roles</span>
+      <Link :href="route('roles.create')"
+            class="btn btn-primary btn-sm d-flex align-items-center">
+        <i class="bi bi-plus-lg me-1"></i> Nuevo
+      </Link>
+    </div>
     <div class="card" wire:ignore.self>
     <div class="card-body" style="overflow-x: auto">
     <table class="table table-hover table-bordered" style="white-space: nowrap" wire:ignore.self>

@@ -30,4 +30,9 @@ class EstudianteCurso extends Model
     {
         return $this->belongsTo(Factura::class, 'factura_id', 'codigo');
     }
+
+    public function estado()
+    {
+        return $this->belongsTo(\App\Models\Estado::class, 'estado_id', 'codigo');
+    }
 }

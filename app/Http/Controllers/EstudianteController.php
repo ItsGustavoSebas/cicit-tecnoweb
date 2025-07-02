@@ -107,4 +107,37 @@ class EstudianteController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function export()
+    {
+        $filename = 'estudiantes_' . now()->format('Ymd_His') . '.csv';
+
+        $rows = \App\Models\Estudiante::with('tipo')
+            ->get(['codigo','nombre','apellido','ci','tipo_estudiante_id'])
+            ->map(fn($e) => [
+                $e->codigo,
+                $e->nombre,
+                $e->apellido,
+                $e->ci,
+                optional($e->tipo)->nombre,
+            ]);
+
+        $handle = fopen('php://temp', 'r+');
+        fputcsv($handle, ['ID', 'Nombre', 'Apellido', 'CI', 'Tipo']);
+        foreach ($rows as $row) {
+            fputcsv($handle, $row);
+        }
+        rewind($handle);
+        $csv = stream_get_contents($handle);
+        fclose($handle);
+        
+        $bom = chr(0xEF).chr(0xBB).chr(0xBF);
+        $csv = $bom . $csv;
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
+    }
+
 }

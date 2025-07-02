@@ -24,4 +24,13 @@ class Estudiante extends Model
     {
         return $this->belongsTo(TipoEstudiante::class, 'tipo_estudiante_id');
     }
+
+    public function inscripciones()
+    {
+        return $this->hasMany(
+            \App\Models\EstudianteCurso::class, 
+            'estudiante_id',                      
+            'codigo'                            
+        );
+    }
 }

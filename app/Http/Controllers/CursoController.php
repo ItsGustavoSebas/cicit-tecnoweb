@@ -136,4 +136,98 @@ class CursoController extends Controller
 
         return Inertia::location(route('cursos.index'));
     }
+
+    public function export()
+    {
+        $filename = 'cursos_' . now()->format('Ymd_His') . '.csv';
+
+        $cursos = Curso::with([
+                'profesor:codigo,nombre',
+                'cronogramas:codigo,curso_id,dia,hora_inicio,hora_fin',
+                'precios.tipoEstudiante:codigo,nombre',
+            ])
+            ->withCount('inscripciones as inscritos')
+            ->get(['codigo','nombre','cupo','duracion','presencial','profesor_id']);
+
+        // Construimos las filas
+        $rows = $cursos->map(function ($c) {
+            // Cronograma en una sola cadena
+            $cronos = $c->cronogramas
+                ->map(fn ($cr) => "{$cr->dia} {$cr->hora_inicio}-{$cr->hora_fin}")
+                ->implode(', ');
+
+            // Precios en una sola cadena
+            $precios = $c->precios
+                ->map(fn ($p) => optional($p->tipoEstudiante)->nombre . ': ' . $p->precio)
+                ->implode(', ');
+
+            return [
+                $c->codigo,
+                $c->nombre,
+                $c->profesor?->nombre,
+                $c->cupo,
+                $c->inscritos,
+                $c->duracion,
+                $c->presencial ? 'Sí' : 'No',
+                $cronos,
+                $precios,
+            ];
+        });
+
+        // --- Generar CSV ---
+        $h = fopen('php://temp', 'r+');
+        fputcsv($h, [
+            'ID', 'Nombre', 'Profesor', 'Cupo',
+            'Inscritos', 'Duración', 'Presencial',
+            'Cronograma', 'Precios'
+        ]);
+        foreach ($rows as $row) {
+            fputcsv($h, $row);
+        }
+        rewind($h);
+        $csv = chr(0xEF).chr(0xBB).chr(0xBF).stream_get_contents($h); // BOM UTF-8
+        fclose($h);
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
+    }
+
+    public function exportInscripciones(Curso $curso)
+    {
+        $rows = $curso->inscripciones()
+            ->with([
+                'estudiante:codigo,nombre,apellido,ci',
+                'estado:codigo,nombre'                    // ← traemos nombre del estado
+            ])
+            ->get(['codigo','estudiante_id','monto','estado_id','created_at'])
+            ->map(fn($i) => [
+                $i->estudiante->codigo,
+                $i->estudiante->nombre,
+                $i->estudiante->apellido,
+                $i->estudiante->ci,
+                $i->monto,
+                optional($i->estado)->nombre,            // ← aquí
+                $i->created_at->format('Y-m-d'),
+            ]);
+
+        $h = fopen('php://temp', 'r+');
+        fputcsv($h, ['Cod Est','Nombre','Apellido','CI','Monto','Estado','Fecha']);
+        foreach ($rows as $row) fputcsv($h, $row);
+        rewind($h);
+        $csv = chr(0xEF).chr(0xBB).chr(0xBF).stream_get_contents($h);
+        fclose($h);
+
+        $fname = 'inscripciones_curso_'.$curso->codigo.'_'.now()->format('Ymd_His').'.csv';
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$fname\"",
+        ]);
+    }
+
+
+
+
 }

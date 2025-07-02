@@ -80,4 +80,11 @@ class Curso extends Model
         });
   
     }
+
+    public function inscripciones()
+    {
+        // cualquier estado que signifique “inscrito” o “pagado”
+        return $this->hasMany(\App\Models\EstudianteCurso::class,
+                            'curso_id','codigo');
+    }
 }

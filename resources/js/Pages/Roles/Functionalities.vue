@@ -59,7 +59,7 @@
         <button class="btn btn-secondary" @click="selectedFuncionalidad = null">
           Cancelar
         </button>
-        <button class="btn btn-success" @click="guardar">
+        <button class="btn btn-primary" @click="guardar">
           Guardar
         </button>
       </div>

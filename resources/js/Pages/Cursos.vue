@@ -18,9 +18,79 @@
   background-color: #42585EFF;
   font-weight: bold;
 }
+
+.btn {
+  @apply inline-flex items-center px-3 py-1.5 rounded transition;
+}
+.btn-sm   { font-size: .875rem; }
+.btn-outline-primary { @apply border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white; }
+.btn-outline-success { @apply border border-green-600 text-green-600 hover:bg-green-600 hover:text-white; }
+.btn-secondary       { @apply bg-gray-500 text-white hover:bg-gray-600; }
+
+.app-2 {                                  
+  --btn-main-bg:    #43A047;            
+  --card-main-bg:   #0A2BC0FF;           
+  --card-side-bg:   #3CBE2BFF;            
+}
+
+.app-2.nino {
+  --btn-main-bg:    #0D47A1;               
+  --card-main-bg:   #03A9F4;           
+  --card-side-bg:   #171AD6FF;             
+}
+
+.app-2.adulto {
+  --btn-main-bg:    #42585E;              
+  --card-main-bg:   #78909C;                
+  --card-side-bg:   #2E2F33FF;              
+}
+
+.card-button {
+  background-color: var(--btn-main-bg);
+  color: #fff;
+  transition: background .2s;
+}
+.card-button:hover {
+  filter: brightness(.9);
+}
+
+.info-card {                     
+  color: #fff;
+  border-radius: .75rem;
+  padding: 1.5rem;
+}
+.info-card.primary   { background: var(--card-main-bg);  }
+.info-card.secondary { background: var(--card-side-bg);  }
 </style>
 <template>
   <GuestLayout>
+<div class="grid md:grid-cols-2 gap-6 mb-8">
+
+  <!-- Tarjeta principal -->
+  <div class="info-card primary">
+    <h3 class="text-xl font-bold mb-2">
+      ¿Necesita reimprimir su formulario de preinscripción o inscripción?
+    </h3>
+    <p class="mb-4">Haga click en la siguiente opción.</p>
+
+    <button @click="showModal = true" class="card-button w-auto btn btn-primary">
+      Imprimir formulario
+    </button>
+  </div>
+
+  <!-- Tarjeta secundaria -->
+  <div class="info-card secondary">
+    <h3 class="text-xl font-bold mb-2">
+      ¿Ya tiene un formulario pero desea corregir un dato erróneo?
+    </h3>
+    <p>
+      Apersónese a oficinas de la CICIT en el módulo 236
+    </p>
+  </div>
+
+</div>
+
+
     <div class="modal-content p-8 min-h-screen">
       <h2 class="text-3xl font-bold text-blue-800 mb-6">Cursos CICIT</h2>
 
@@ -60,27 +130,122 @@
         </div>
       </div>
     </div>
+    <!-- MODAL -->
+<div v-if="showModal"
+     class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-xl max-h-[90vh] overflow-y-auto">
+
+    <!-- Cerrar -->
+    <button class="absolute top-2 right-3 text-xl"
+            @click="resetModal">×</button>
+
+    <!-- Paso 1: ingresar CI -->
+    <div v-if="!resultado">
+      <h3 class="text-lg font-bold mb-3">Ingrese su número de CI</h3>
+      <input v-model="ci"
+             type="number"
+             class="border rounded w-full p-2 mb-3"/>
+      <button :disabled="loading || !ci"
+              @click="buscar"
+              class="card-button w-full btn btn-primary">
+        Buscar
+      </button>
+      <p v-if="error" class="text-red-600 mt-2">{{ error }}</p>
+    </div>
+
+    <!-- Paso 2: mostrar resultado -->
+    <div v-else>
+      <h3 class="font-bold mb-2">
+        Resultados para {{ resultado.est.nombre }} {{ resultado.est.apellido }}
+      </h3>
+
+      <table class="table table-bordered w-full text-sm">
+        <thead><tr>
+          <th>Curso</th><th>Monto</th><th>Estado</th><th>Fecha</th><th>Acciones</th>
+        </tr></thead>
+        <tbody>
+          <tr v-for="ins in resultado.inscripciones" :key="ins.id">
+            <td>{{ ins.curso }}</td>
+            <td>{{ ins.monto }}</td>
+            <td>{{ ins.estado }}</td>
+            <td>{{ ins.fecha }}</td>
+            <td class="space-x-1">
+
+              <!-- Formulario -->
+              <a :href="route('public.inscripciones.formulario', ins.id)"
+                 target="_blank"
+                 class="btn btn-outline-primary btn-sm">
+                Formulario
+              </a>
+
+              <!-- Certificado (solo si aprobado, id = 3) -->
+              <a v-if="ins.estado_id === 3"
+                 :href="route('public.inscripciones.certificado', ins.id)"
+                 target="_blank"
+                 class="btn btn-outline-success btn-sm">
+                Certificado
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="btn btn-secondary mt-4" @click="resetModal">
+        Cerrar
+      </button>
+    </div>
+
+  </div>
+</div>
+
   </GuestLayout> 
 </template>
 
 <script setup>
-  import { ref, onMounted } from 'vue'
-  import axios from 'axios'
-  import GuestLayout from '@/Layouts/GuestLayout.vue';
+import { ref, onMounted } from 'vue'
+import { route } from 'ziggy-js'
+import axios from 'axios'
+import GuestLayout from '@/Layouts/GuestLayout.vue'
 
+const cursos = ref([])
+const showModal   = ref(false)
+const ci          = ref('')
+const loading     = ref(false)
+const error       = ref('')
+const resultado   = ref(null)
 
-  const cursos = ref([])
+const cargarCursos = async () => {
+  const res = await axios.get('/api/get-cursos')
+  cursos.value = res.data
+}
 
-  const cargarCursos = async () => {
-    const res = await axios.get('/api/get-cursos')
-    cursos.value = res.data
+onMounted(cargarCursos)
+
+/* ------- búsqueda ---------- */
+const buscar = async () => {
+  loading.value = true
+  error.value   = ''
+  resultado.value = null
+  try {
+    const { data } = await axios.get(
+      route('public.inscripciones.buscar', { ci: ci.value })
+    )
+    resultado.value = data
+  } catch (e) {
+    error.value = e.response?.data?.msg || 'Error al buscar'
+  } finally {
+    loading.value = false
   }
+}
 
-
-  onMounted(() => {
-    cargarCursos()
-  });
+const resetModal = () => {
+  showModal.value = false
+  ci.value = ''
+  error.value = ''
+  resultado.value = null
+}
 </script>
+
 
 <style>
   .card {

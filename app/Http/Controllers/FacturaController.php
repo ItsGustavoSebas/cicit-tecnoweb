@@ -140,4 +140,44 @@ class FacturaController extends Controller
 
     }
 
+    public function export()
+    {
+        $filename = 'facturas_' . now()->format('Ymd_His') . '.csv';
+
+        // Traemos usuario que genera, estudiante que paga y total
+        $facturas = Factura::with([
+                'usuario:codigo,nombre',
+                'items.estudiante:codigo,nombre,apellido'
+            ])
+            ->orderByDesc('created_at')
+            ->get();
+
+        // Construimos filas
+        $rows = $facturas->map(function ($f) {
+            // asumimos que todos los ítems pertenecen al mismo estudiante
+            $est = $f->items->first()?->estudiante;
+            return [
+                $f->codigo,
+                $f->usuario?->nombre,                              // Generado por
+                $est ? $est->nombre.' '.$est->apellido : '—',      // Pagado por
+                $f->monto,
+                $f->created_at->format('Y-m-d H:i'),
+            ];
+        });
+
+        // Generar CSV con BOM UTF-8
+        $h = fopen('php://temp','r+');
+        fputcsv($h, ['Código','Generado por','Pagado por','Monto','Fecha']);
+        foreach ($rows as $row) fputcsv($h,$row);
+        rewind($h);
+        $csv = chr(0xEF).chr(0xBB).chr(0xBF).stream_get_contents($h); // BOM
+        fclose($h);
+
+        return response($csv,200,[
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
+    }
+
+
 }

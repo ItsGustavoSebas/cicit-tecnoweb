@@ -1,13 +1,12 @@
 <template>
   <AuthenticatedLayout>
-    <h2>Factura #{{ factura.codigo }}</h2>
-    <a
-    :href="route('facturas.pdf', factura.codigo)"
-    target="_blank"
-    class="btn btn-outline-secondary mt-3"
-  >
-    Descargar PDF
-  </a>
+  <div class="d-lg-flex d-block justify-content-between align-items-center mb-3">
+      <span class="fs-4">Factura #{{ factura.codigo }}</span>
+  
+      <a :href="route('facturas.pdf', factura.codigo)" class="btn btn-primary btn-sm" target="_blank">
+        <i class="bi bi-download me-1"></i> Descargar PDF
+      </a>
+    </div>
 
     <p><strong>Usuario:</strong> {{ factura.usuario }}</p>
     <p><strong>Fecha:</strong> {{ factura.created_at }}</p>
@@ -25,7 +24,7 @@
       </tbody>
     </table>
 
-    <Link :href="route('facturas.index')" class="btn btn-secondary mt-3">
+    <Link :href="route('facturas.index')" class="btn btn-primary btn-sm mt-3">
       Volver a facturas
     </Link>
   </AuthenticatedLayout>

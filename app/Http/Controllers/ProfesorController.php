@@ -97,4 +97,38 @@ class ProfesorController extends Controller
         return redirect()->route('profesores.index')
                          ->with('success','Profesor eliminado');
     }
+
+    public function export()
+    {
+        $filename = 'profesores_' . now()->format('Ymd_His') . '.csv';
+
+        $rows = \App\Models\Profesor::all(['codigo','nombre','apellido',
+                                        'titulo','ci','foto'])
+            ->map(fn($p) => [
+                $p->codigo,
+                $p->nombre,
+                $p->apellido,
+                $p->titulo,
+                $p->ci,
+                $p->foto ? url("/storage/{$p->foto}") : '',   
+            ]);
+
+        $handle = fopen('php://temp', 'r+');
+        fputcsv($handle, ['ID','Nombre','Apellido','Título','CI','Foto URL']);
+        foreach ($rows as $row) {
+            fputcsv($handle, $row);
+        }
+        rewind($handle);
+        $csv = stream_get_contents($handle);
+        fclose($handle);
+
+        $bom = chr(0xEF).chr(0xBB).chr(0xBF);
+        $csv = $bom . $csv;
+
+        return response($csv, 200, [
+            'Content-Type'        => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+        ]);
+    }
+
 }

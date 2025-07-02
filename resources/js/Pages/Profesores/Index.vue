@@ -1,9 +1,17 @@
 <template>
   <AuthenticatedLayout>
-    <h2>Profesores</h2>
-    <Link :href="route('profesores.create')" class="btn btn-primary mb-3">
-      Nuevo profesor
-    </Link>
+    <div class="d-lg-flex d-block justify-content-between align-items-center">
+      <span class="fs-4">Profesores</span>
+  
+      <!-- botón +Nuevo -->
+      <Link :href="route('profesores.create')"
+            class="btn btn-primary btn-sm d-flex align-items-center">
+        <i class="bi bi-plus-lg me-1"></i> Nuevo
+      </Link>
+      <a :href="route('profesores.export')" class="btn btn-primary btn-sm" target="_blank">
+        <i class="bi bi-download me-1"></i> Exportar CSV
+      </a>
+    </div>
 
     <div class="card">
       <div class="card-body" style="overflow-x:auto">

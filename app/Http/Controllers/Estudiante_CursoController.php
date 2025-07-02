@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curso;
+use App\Models\Estudiante;
 use App\Models\EstudianteCurso;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -62,7 +64,7 @@ class Estudiante_CursoController extends Controller
         $curso = Curso::with(['profesor', 'cronogramas', 'precios'])
                       ->findOrFail($cursoId);
 
-        $inscripciones = EstudianteCurso::with('estudiante')
+        $inscripciones = EstudianteCurso::with('estudiante', 'estado')
                                         ->where('curso_id', $cursoId)
                                         ->get();
 
@@ -70,5 +72,63 @@ class Estudiante_CursoController extends Controller
             'curso'         => $curso,
             'inscripciones' => $inscripciones,
         ]);
+    }
+
+    public function certificado(EstudianteCurso $inscripcion)
+    {
+        // solo permitimos si el estado es “aprobado / concluido”
+        abort_if($inscripcion->estado_id !== 3 /*Aprobado*/,
+                 403, 'El estudiante aún no concluyó el curso');
+
+        $inscripcion->load('estudiante','curso');
+
+        $pdf = Pdf::loadView('pdf.certificado', [
+            'estudiante' => $inscripcion->estudiante,
+            'curso'      => $inscripcion->curso,
+            'fecha'      => now()->format('d-m-Y'),
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream("certificado_{$inscripcion->codigo}.pdf");
+    }
+
+    /* 2️⃣  Formulario de inscripción/pago */
+    public function formulario(EstudianteCurso $inscripcion)
+    {
+        $inscripcion->load('estudiante','curso','estado');
+
+        $pdf = Pdf::loadView('pdf.formulario', ['i' => $inscripcion]);
+
+        return $pdf->download("formulario_{$inscripcion->codigo}.pdf");
+    }
+
+    public function buscarPorCI(Request $request)
+    {
+        $ci = $request->query('ci');
+
+        $est = Estudiante::where('ci', $ci)->first();
+
+        if (!$est) {
+            return response()->json(['ok' => false, 'msg' => 'No se encontró ningún estudiante.'], 404);
+        }
+
+        $inscripciones = $est->inscripciones()       // relación hasMany
+            ->with(['curso:codigo,nombre', 'estado:codigo,nombre'])
+            ->get(['codigo','curso_id','monto','estado_id','created_at']);
+
+        return [
+            'ok'   => true,
+            'est'  => [
+                'nombre'   => $est->nombre,
+                'apellido' => $est->apellido,
+            ],
+            'inscripciones' => $inscripciones->map(fn($i) => [
+                'id'        => $i->codigo,
+                'curso'     => $i->curso->nombre,
+                'monto'     => $i->monto,
+                'estado_id' => $i->estado_id,
+                'estado'    => $i->estado->nombre,
+                'fecha'     => $i->created_at->format('d-m-Y'),
+            ]),
+        ];
     }
 } 
