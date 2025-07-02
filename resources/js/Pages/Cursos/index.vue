@@ -66,6 +66,16 @@
                             >
                             <i class="bi bi-trash-fill fs-4 h-100 text-danger" style="line-height:30px;"></i>
                         </button>
+
+                        <Link  :href="route('cursos.verEstudiantes', c.codigo)"
+                                class="me-1"
+                                style="height: 30px"
+                                data-bs-toggle="tooltip"
+                                title="verEstudiantes">
+                                <i class="bi bi-people-fill fs-4 h-100 text-primary"
+                            style="line-height: 30px;"></i>
+                        </Link>
+
                     </td>
                   </tr>
                 </tbody>
