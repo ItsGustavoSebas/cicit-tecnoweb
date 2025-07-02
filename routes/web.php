@@ -114,6 +114,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cursos/editar/{curso}',[CursoController::class, 'editar'])->name('cursos.editar');
     Route::put('/cursos/actualizar/{curso}',       [CursoController::class, 'update'])->name('cursos.update');
     Route::delete('/cursos/eliminar/{curso}',    [CursoController::class, 'delete'])->name('cursos.delete');
+    Route::get('/cursos/{curso}/estudiantes', [Estudiante_CursoController::class, 'verEstudiantes'])->name('cursos.verEstudiantes');
 });
 
 Route::get('/funcionalidades/search', function (Illuminate\Http\Request $request) {

@@ -30,6 +30,10 @@ class Estudiante_CursoController extends Controller
             'curso_id' => 'required|exists:curso,codigo',
             'monto' => 'required|numeric|min:0',
         ]);
+        $curso = Curso::findOrFail($validated['curso_id']);
+        if ($curso->cupo < 1) {
+            return response()->json(['error' => 'No hay cupos disponibles para este curso.'], 409);
+        }
         $existe = EstudianteCurso::where('estudiante_id', $validated['estudiante_id'])
                           ->where('curso_id', $validated['curso_id'])
                           ->exists();
@@ -45,10 +49,26 @@ class Estudiante_CursoController extends Controller
             'estado_id' => 1, 
             'factura_id' => null,
         ]);
-
+        $curso->cupo = $curso->cupo - 1;
+        $curso->save();    
         return response()->json([
             'message' => 'Inscripción registrada correctamente.',
             'data' => $inscripcion,
         ]);
     }
-}
+
+    public function verEstudiantes($cursoId)
+    {
+        $curso = Curso::with(['profesor', 'cronogramas', 'precios'])
+                      ->findOrFail($cursoId);
+
+        $inscripciones = EstudianteCurso::with('estudiante')
+                                        ->where('curso_id', $cursoId)
+                                        ->get();
+
+        return Inertia::render('Cursos/listaEstudiantes', [
+            'curso'         => $curso,
+            'inscripciones' => $inscripciones,
+        ]);
+    }
+} 

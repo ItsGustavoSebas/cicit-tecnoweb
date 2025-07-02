@@ -40,6 +40,7 @@
             <div class="descripcion">
               {{ curso.presencial ? '🏫Modalidad Presencial' : '💻Modalidad: Virtual' }}
             </div>
+            <div class="descripcion">📅Cupos: {{ curso.cupo }}</div>
 
             <div v-if="curso.cronogramas?.length">
               <div class="descripcion">🗓️Cronograma:</div>
