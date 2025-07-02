@@ -147,4 +147,5 @@ Route::middleware(['auth', 'verified'])
          ->only(['index','show','create','store']);
 
     });
+    Route::post('api/estudianteNuevo', [EstudianteController::class, 'storeFromGuest']);
 
