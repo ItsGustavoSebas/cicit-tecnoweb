@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estudiante;
+use App\Models\Precio;
 use App\Models\TipoEstudiante;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -50,6 +51,34 @@ class EstudianteController extends Controller
         return redirect()->route('estudiantes.index')
                          ->with('success','Estudiante creado');
     }
+
+    public function storeFromGuest(Request $request)
+    {
+        $data = $request->validate([
+            'nombre'   => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'ci'       => 'required|integer|unique:estudiante,ci',
+            'curso_id' => 'required|exists:curso,codigo',
+        ]);
+    
+        $data['tipo_estudiante_id'] = 1;
+    
+        $estudiante = Estudiante::create($data);
+    
+        $estudiante->load('tipoEstudiante:codigo,codigo,nombre');
+    
+        $estudiante->tipo_estudiante_nombre = $estudiante->tipoEstudiante->nombre;
+    
+        $precio = Precio::where('curso_id', $data['curso_id'])
+        ->where('tipo_estudiante_id', 1)
+        ->value('precio');       
+
+        return response()->json([
+        'estudiante' => $estudiante->makeHidden('tipoEstudiante'),
+        'precio'     => $precio,
+        ], 201);
+    }
+
 
     public function edit(Estudiante $estudiante)
     {
